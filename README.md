@@ -16,6 +16,6 @@ Example:
 
     mdbf eval ./bf-scripts/mandlebrot.b
     
-Depending on your computer you might be able to slowly render a mandlebrot render, courtesy of [Erik Bosman](https://github.com/erikdubbelboer).
+Depending on your computer you might be able to slowly render a mandlebrot render, courtesy of Erik Bosman.
 
 Besides evaluating files, you can also go into a repl. To do that run `mdbf repl`, and you'll go into a very basic repl instance.
