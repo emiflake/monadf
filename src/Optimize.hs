@@ -8,7 +8,7 @@ data Optimization = Raw Instruction
                   | Add Integer
                   | Sub Integer
                   | Move Integer
-                  deriving Show
+                  deriving (Show, Eq)
 
 countFromStart t = length . takeWhile (==t)
 
@@ -26,3 +26,19 @@ optimize (Loop inLoops:xs) = (Many $ optimize inLoops) : optimize xs
 optimize (x:xs) = Raw x : optimize xs
 optimize [] = []
 
+optimize2' :: [Optimization] -> [Optimization]
+optimize2' (Add a:Add b:xs) = Add (a + b) : optimize2' xs
+optimize2' (Sub a:Add b:xs) = Add (-a + b) : optimize2' xs
+optimize2' (Sub a:Sub b:xs) = Add (-a - b) : optimize2' xs
+optimize2' (Add a:Sub b:xs) = Add (a - b) : optimize2' xs
+optimize2' (Set a:Add b:xs) = Set (a + b) : optimize2' xs
+optimize2' (Set a:Sub b:xs) = Set (a - b) : optimize2' xs
+optimize2' (Move a:Move b:xs) = Move (a + b) : optimize2' xs
+optimize2' (x:xs) = x : optimize2' xs
+optimize2' [] = []
+
+-- multipass non-destructive optimization
+optimize2 :: [Optimization] -> [Optimization]
+optimize2 xs | o2 == xs = xs
+             | otherwise = optimize2 o2
+    where o2 = optimize2' xs

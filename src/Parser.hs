@@ -18,6 +18,15 @@ data Instruction = Loop [Instruction]
                  | Comment
                  deriving (Show, Eq)
 
+toChar :: Instruction -> Char
+toChar Increment = '+'
+toChar Decrement = '-'
+toChar MoveLeft  = '<'
+toChar MoveRight = '>'
+toChar Input     = ','
+toChar Output    = '.'
+toChar _ = error "toChar of impossible Instruction"
+
 charMatchParser :: Char -> a -> Parser a
 charMatchParser ch val = char ch >> pure val
 
