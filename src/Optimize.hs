@@ -33,7 +33,10 @@ optimize2' (Sub a:Sub b:xs) = Add (-a - b) : optimize2' xs
 optimize2' (Add a:Sub b:xs) = Add (a - b) : optimize2' xs
 optimize2' (Set a:Add b:xs) = Set (a + b) : optimize2' xs
 optimize2' (Set a:Sub b:xs) = Set (a - b) : optimize2' xs
+optimize2' (Add a:Set b:xs) = Set b : optimize2' xs
+optimize2' (Sub a:Set b:xs) = Set b : optimize2' xs
 optimize2' (Move a:Move b:xs) = Move (a + b) : optimize2' xs
+optimize2' (Many a:xs) = Many (optimize2' a) : optimize2' xs
 optimize2' (x:xs) = x : optimize2' xs
 optimize2' [] = []
 
